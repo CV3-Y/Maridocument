@@ -30,12 +30,6 @@
     animation: growWidth 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
-  /* 5. 글리치 텍스트 효과 (THREATS 페이지용) */
-  .glitch-text {
-    text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
-    animation: glitch 0.3s infinite linear alternate-reverse;
-  }
-
   /* 6. 도장 쾅 찍히는 효과 (영수증 페이지용) */
   .animate-stampScale {
     animation: stampScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
