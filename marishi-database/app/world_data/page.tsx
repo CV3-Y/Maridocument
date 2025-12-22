@@ -199,9 +199,9 @@ export default function WorldPage() {
             {/* 상단: 에테르 결정 정보 */}
             <div className="flex flex-col md:flex-row gap-6 mb-8">
                 <div className="relative w-32 h-32 flex-shrink-0 border border-yellow-700 bg-black/50">
-                    {/* [이미지 가이드] 에테르 결정 이미지 (public/world/ether_crystal.png) */}
+                    {/* [이미지 가이드] 에테르 결정 이미지 (public/world/crystal.png) */}
                     <Image 
-                        src="/world/ether_crystal.png" 
+                        src="/world/crystal.png" 
                         alt="Ether Crystal" 
                         fill 
                         className="object-contain p-2 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]"
