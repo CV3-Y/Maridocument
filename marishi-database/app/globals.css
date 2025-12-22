@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  background-color: #050505;
+  color: #22c55e;
+}
+
+@layer utilities {
+  /* 1. 뉴스 티커 (속도 50s) */
+  .animate-marquee {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 50s linear infinite; 
+  }
+  
+  /* 2. 커서 깜빡임 */
+  .animate-blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  /* 3. 문서 펼쳐짐 효과 (이번에 추가된 것!) */
+  .animate-fadeIn {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  /* 4. 그래프 차오름 효과 (이번에 추가된 것!) */
+  .animate-grow {
+    animation: growWidth 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+}
+
+/* --- 애니메이션 정의 (Keyframes) --- */
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-20px); /* 위에서 아래로 스르륵 */
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes growWidth {
+  from { width: 0%; }
+  /* to는 설정된 width값까지 자동으로 감 */
+}
