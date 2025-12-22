@@ -24,5 +24,7 @@ export const ARCHIVES: { [key: string]: ArchiveFile[] } = {
   ],
   "receipts": [
     { id: "inv_ray", type: "receipt", title: "INVOICE #9901 (Ray)", date: "2025.12.19", author: "Fixer_R", contentId: "REC_RAY" },
+    // ▼ [추가된 부분] 세르 계약서 데이터
+    { id: "con_sehr", type: "receipt", title: "CONTRACT: Security Service (Sehr)", date: "2025.12.21", author: "Marchen Notary", contentId: "CON_SEHR" },
   ]
 };

@@ -20,14 +20,30 @@
     animation: blink 1s step-end infinite;
   }
 
-  /* 3. 문서 펼쳐짐 효과 (이번에 추가된 것!) */
+  /* 3. 문서 펼쳐짐 효과 */
   .animate-fadeIn {
     animation: fadeIn 0.4s ease-out forwards;
   }
 
-  /* 4. 그래프 차오름 효과 (이번에 추가된 것!) */
+  /* 4. 그래프 차오름 효과 */
   .animate-grow {
     animation: growWidth 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* 5. 글리치 텍스트 효과 (THREATS 페이지용) */
+  .glitch-text {
+    text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
+    animation: glitch 0.3s infinite linear alternate-reverse;
+  }
+
+  /* 6. 도장 쾅 찍히는 효과 (영수증 페이지용) */
+  .animate-stampScale {
+    animation: stampScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  /* 7. 느린 깜빡임 (경고창용) */
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 }
 
@@ -57,4 +73,24 @@
 @keyframes growWidth {
   from { width: 0%; }
   /* to는 설정된 width값까지 자동으로 감 */
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes stampScale {
+  0% { 
+    transform: rotate(-12deg) scale(2); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: rotate(-12deg) scale(1); 
+    opacity: 1; 
+  }
 }

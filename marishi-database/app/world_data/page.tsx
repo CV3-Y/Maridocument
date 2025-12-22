@@ -198,13 +198,14 @@ export default function WorldPage() {
             
             {/* 상단: 에테르 결정 정보 */}
             <div className="flex flex-col md:flex-row gap-6 mb-8">
-                <div className="relative w-32 h-32 flex-shrink-0 border border-yellow-700 bg-black/50">
+                <div className="relative w-32 h-32 flex-shrink-0 border border-yellow-700 bg-black/50 overflow-hidden"> {/* overflow-hidden 추가 */}
                     {/* [이미지 가이드] 에테르 결정 이미지 (public/world/crystal.png) */}
+                    {/* 수정됨: object-cover로 변경하여 꽉 채움 */}
                     <Image 
                         src="/world/crystal.png" 
                         alt="Ether Crystal" 
                         fill 
-                        className="object-contain p-2 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]"
+                        className="object-cover contrast-125 hover:scale-110 transition-transform duration-700" 
                     />
                 </div>
                 <div className="flex-1">
@@ -274,18 +275,20 @@ export default function WorldPage() {
             </div>
           </div>
 
-          <div className="relative min-h-[300px] border border-purple-900/50 bg-[#0a0510] p-6">
+          <div className="relative min-h-[300px] border border-purple-900/50 bg-[#0a0510] p-6 overflow-hidden"> {/* overflow-hidden 추가 */}
              {/* [이미지 가이드] 세력 지도 이미지 (public/world/faction_map.png) */}
-             <div className="absolute top-4 right-4 w-1/3 aspect-square border border-purple-500/30 opacity-50 hover:opacity-100 transition-opacity hidden md:block">
+             {/* 수정됨: 위치와 크기 조정하여 삐져나오지 않도록 함 */}
+             <div className="absolute top-0 right-0 w-1/2 h-full opacity-30 pointer-events-none hidden md:block">
                 <Image 
                     src="/world/faction_map.png" 
                     alt="Faction Territory Map" 
                     fill 
-                    className="object-cover"
+                    className="object-cover object-center mix-blend-lighten"
                 />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#0a0510]/80 to-[#0a0510]"></div>
              </div>
 
-             <div className="space-y-6 w-full md:w-2/3">
+             <div className="space-y-6 w-full md:w-2/3 relative z-10">
                 {/* 오라토리오 */}
                 <div className="group border-l-4 border-purple-500 pl-4 py-1 hover:bg-purple-900/10 transition-colors cursor-default">
                     <h3 className="text-purple-300 font-bold text-sm">오라토리오 (Oratorio)</h3>
