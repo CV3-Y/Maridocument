@@ -25,7 +25,7 @@ export default function TerminalLoader({ onComplete, fileName }: TerminalLoaderP
   useEffect(() => {
     // 모든 라인 출력 완료 시
     if (currentLineIndex >= scenarios.length) {
-      const timeout = setTimeout(onComplete, 400); // [수정] 800ms -> 400ms (완료 대기 시간 단축)
+      const timeout = setTimeout(onComplete, 650); // [수정] 800ms -> 650ms
       return () => clearTimeout(timeout);
     }
 
@@ -41,14 +41,14 @@ export default function TerminalLoader({ onComplete, fileName }: TerminalLoaderP
           return newLines;
         });
         setCurrentCharIndex((prev) => prev + 1);
-      }, 15); // [수정] 30ms -> 15ms (타이핑 속도 2배 향상)
+      }, 15); // [수정] 30ms -> 15ms (빠르게)
       return () => clearTimeout(timeout);
     } else {
       // 한 줄 완료 후 다음 줄로 넘어감
       const timeout = setTimeout(() => {
         setCurrentLineIndex((prev) => prev + 1);
         setCurrentCharIndex(0);
-      }, 200); // [수정] 400ms -> 200ms (줄바꿈 대기 시간 단축)
+      }, 400); // [유지] 줄바꿈 속도는 기존(400ms) 유지
       return () => clearTimeout(timeout);
     }
   }, [currentLineIndex, currentCharIndex, onComplete, scenarios, fileName]);
