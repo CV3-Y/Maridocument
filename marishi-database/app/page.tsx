@@ -1,7 +1,30 @@
+"use client"; // 필수: 사용자 입력을 받기 위해 클라이언트 컴포넌트로 전환
+
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // 페이지 이동을 위한 훅
+import { useState } from "react";
 
 export default function Home() {
+  const router = useRouter();
+  const [inputVal, setInputVal] = useState("");
+
+  // 검색어 입력 감지 함수
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const lowerVal = inputVal.toLowerCase();
+      
+      // 1. 히든 키워드 'sera if' 입력 시 -> 아카이브로 이동하며 강제 트리거 신호 보냄
+      if (lowerVal === "sera if") {
+        router.push("/archive?trigger=sera_if");
+      } 
+      // 2. 그 외 검색어 입력 시 -> 그냥 아카이브로 이동
+      else if (inputVal.trim() !== "") {
+        router.push("/archive");
+      }
+    }
+  };
+
   // 뉴스 데이터
   const newsItems = [
     "[NEWS] 마리시 3구역 에테르 농도 경보 발령... 시민 대피령 검토 중",
@@ -14,7 +37,6 @@ export default function Home() {
     "[알림] 야간 통행 금지 시간: 22:00 ~ 06:00 (위반 시 즉결 처분 가능)"
   ];
 
-  // 뉴스 티커 텍스트
   const tickerText = [...newsItems, ...newsItems].join(" \u00A0\u00A0///\u00A0\u00A0 ");
 
   return (
@@ -26,9 +48,7 @@ export default function Home() {
       {/* 1. 상단 헤더 영역 */}
       <header className="relative z-10">
         <div className="bg-gradient-to-b from-gray-900 to-black py-4 text-center border-b border-green-900/50 flex flex-col items-center justify-center">
-          
           <div className="relative">
-            {/* 로고 이미지 */}
             <Image
               src="/logo.png" 
               alt="Marishi City Logo"
@@ -38,7 +58,6 @@ export default function Home() {
               priority
             />
           </div>
-
           <p className="text-xs md:text-sm text-green-600 tracking-[0.3em] mt-2 uppercase font-bold opacity-80">
             Central Database
           </p>
@@ -58,44 +77,26 @@ export default function Home() {
           데이터베이스 접근 로그가 기록되고 있습니다.
         </p>
 
-        {/* 검색창 (수정됨: placeholder 삭제) */}
+        {/* 검색창 (기능 추가됨) */}
         <div className="w-full border-2 border-green-700 bg-black/80 p-4 mb-12 flex items-center shadow-[0_0_15px_rgba(34,197,94,0.3)] backdrop-blur-md">
-          {/* 커서 깜빡임 효과 */}
           <span className="mr-4 text-green-500 animate-blink text-xl font-black">{">"}</span>
           <input 
             type="text" 
+            value={inputVal}
+            onChange={(e) => setInputVal(e.target.value)}
+            onKeyDown={handleKeyDown} // 엔터키 감지
             className="bg-transparent border-none outline-none w-full text-lg text-green-100 placeholder-green-800 font-bold"
-            autoFocus // 페이지 로드 시 바로 입력할 수 있도록 포커스 자동 지정
+            autoFocus 
+            placeholder="ACCESS CODE..."
           />
         </div>
 
         {/* 3. 폴더 그리드 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FolderCard 
-            title="PERSONNEL" 
-            desc="마도사 및 주요 인물 프로필" 
-            link="/personnel"
-            code="DIR_01"
-          />
-          <FolderCard 
-            title="WORLD_DATA" 
-            desc="도시 설정, 마법 체계, 균열" 
-            link="/world_data"
-            code="DIR_02"
-          />
-          <FolderCard 
-            title="ARCHIVE" 
-            desc="주요 사건 사고 및 뉴스 기록" 
-            link="/archive"
-            code="DIR_03"
-          />
-          <FolderCard 
-            title="THREATS" 
-            desc="타락체 및 적성 개체 도감" 
-            link="/threats" 
-            code="DIR_04"
-            isDanger={true}
-          />
+          <FolderCard title="PERSONNEL" desc="마도사 및 주요 인물 프로필" link="/personnel" code="DIR_01" />
+          <FolderCard title="WORLD_DATA" desc="도시 설정, 마법 체계, 균열" link="/world_data" code="DIR_02" />
+          <FolderCard title="ARCHIVE" desc="주요 사건 사고 및 뉴스 기록" link="/archive" code="DIR_03" />
+          <FolderCard title="THREATS" desc="타락체 및 적성 개체 도감" link="/threats" code="DIR_04" isDanger={true} />
         </div>
       </div>
 
@@ -109,7 +110,6 @@ export default function Home() {
   );
 }
 
-// 카드 컴포넌트
 function FolderCard({ title, desc, link, code, isDanger = false }: any) {
   return (
     <Link href={link} className={`block border p-5 transition-all hover:bg-green-900/20 hover:translate-y-[-2px] hover:shadow-[0_4px_20px_rgba(34,197,94,0.4)] ${isDanger ? 'border-red-800/70 text-red-500 hover:border-red-500 hover:shadow-[0_4px_20px_rgba(220,38,38,0.4)]' : 'border-green-800/70 bg-black/60 backdrop-blur-sm'}`}>
