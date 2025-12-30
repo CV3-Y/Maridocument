@@ -75,7 +75,7 @@ export default function SeraIfContent() {
           </p>
           
           <p className="leading-loose">
-            시즈 님의 검이 내 목을 베기 직전, <HighlightText>선배님</HighlightText>이 내 손을 잡아당기지 않았다면 
+            시즈 님의 검이 나를 베기 직전, <HighlightText>선배님</HighlightText>이 내 손을 잡아당기지 않았다면 
             나는 지금쯤 차가운 하수구 바닥에 쓰러져 있었을 것이다. 
             그 순간의 서늘한 감각이 아직도 목덜미에 남아있는 것 같아 자꾸만 손으로 목을 만지게 된다.
             물론, 만져지는 건 따뜻한 피부와 맥박뿐이다. 다행이다. 정말로.
