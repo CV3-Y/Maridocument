@@ -9,7 +9,7 @@ export default function Home() {
   const router = useRouter();
   const [inputVal, setInputVal] = useState("");
 
-  // [수정된 부분] 검색어 감지 로직
+  // 검색어 감지 로직
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const lowerVal = inputVal.trim().toLowerCase(); // 공백 제거 후 소문자 변환
@@ -18,7 +18,6 @@ export default function Home() {
       if (lowerVal === "sera if") {
         router.push("/archive?trigger=sera_if");
       } 
-      // 그 외의 입력은 아무 동작도 하지 않음 (코드 삭제됨)
     }
   };
 
@@ -74,7 +73,7 @@ export default function Home() {
           데이터베이스 접근 로그가 기록되고 있습니다.
         </p>
 
-        {/* 검색창 */}
+        {/* 검색창 (수정됨: placeholder 제거) */}
         <div className="w-full border-2 border-green-700 bg-black/80 p-4 mb-12 flex items-center shadow-[0_0_15px_rgba(34,197,94,0.3)] backdrop-blur-md">
           <span className="mr-4 text-green-500 animate-blink text-xl font-black">{">"}</span>
           <input 
@@ -83,8 +82,7 @@ export default function Home() {
             onChange={(e) => setInputVal(e.target.value)}
             onKeyDown={handleKeyDown} 
             className="bg-transparent border-none outline-none w-full text-lg text-green-100 placeholder-green-800 font-bold"
-            autoFocus 
-            placeholder="ACCESS CODE..."
+            autoFocus
           />
         </div>
 
