@@ -1,27 +1,24 @@
-"use client"; // 필수: 사용자 입력을 받기 위해 클라이언트 컴포넌트로 전환
+"use client"; 
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // 페이지 이동을 위한 훅
+import { useRouter } from "next/navigation"; 
 import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
   const [inputVal, setInputVal] = useState("");
 
-  // 검색어 입력 감지 함수
+  // [수정된 부분] 검색어 감지 로직
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      const lowerVal = inputVal.toLowerCase();
+      const lowerVal = inputVal.trim().toLowerCase(); // 공백 제거 후 소문자 변환
       
-      // 1. 히든 키워드 'sera if' 입력 시 -> 아카이브로 이동하며 강제 트리거 신호 보냄
+      // 오직 'sera if'일 때만 이동
       if (lowerVal === "sera if") {
         router.push("/archive?trigger=sera_if");
       } 
-      // 2. 그 외 검색어 입력 시 -> 그냥 아카이브로 이동
-      else if (inputVal.trim() !== "") {
-        router.push("/archive");
-      }
+      // 그 외의 입력은 아무 동작도 하지 않음 (코드 삭제됨)
     }
   };
 
@@ -77,14 +74,14 @@ export default function Home() {
           데이터베이스 접근 로그가 기록되고 있습니다.
         </p>
 
-        {/* 검색창 (기능 추가됨) */}
+        {/* 검색창 */}
         <div className="w-full border-2 border-green-700 bg-black/80 p-4 mb-12 flex items-center shadow-[0_0_15px_rgba(34,197,94,0.3)] backdrop-blur-md">
           <span className="mr-4 text-green-500 animate-blink text-xl font-black">{">"}</span>
           <input 
             type="text" 
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
-            onKeyDown={handleKeyDown} // 엔터키 감지
+            onKeyDown={handleKeyDown} 
             className="bg-transparent border-none outline-none w-full text-lg text-green-100 placeholder-green-800 font-bold"
             autoFocus 
             placeholder="ACCESS CODE..."
