@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 // ----------------------------------------------------------------------
 // [Helper] 타자기 효과 (시스템 메시지용)
@@ -32,11 +33,11 @@ function Typewriter({ text, delay = 0, speed = 30 }: { text: string, delay?: num
 }
 
 // ----------------------------------------------------------------------
-// [Helper] 글리치 텍스트 (하얀 배경 + 어두운 빨간 글씨)
+// [Helper] 텍스트 하이라이트 (요청하신 스타일: 하얀 배경/어두운 글씨)
 // ----------------------------------------------------------------------
-function GlitchSpan({ children }: { children: React.ReactNode }) {
+function HighlightText({ children, strike = false }: { children: React.ReactNode, strike?: boolean }) {
   return (
-    <span className="inline-block bg-gray-100 text-red-900 font-black px-1 mx-1 transform skew-x-12 hover:skew-x-0 transition-transform cursor-help border border-red-500/50 shadow-[0_0_5px_rgba(255,0,0,0.5)] select-none">
+    <span className={`inline-block bg-[#e5e5e5] text-[#2b0a0a] font-mono px-1 mx-0.5 text-sm md:text-base align-middle selection:bg-red-900 selection:text-white ${strike ? 'line-through decoration-red-800 decoration-2' : ''}`}>
       {children}
     </span>
   );
@@ -44,159 +45,180 @@ function GlitchSpan({ children }: { children: React.ReactNode }) {
 
 export default function SeraIfContent() {
   return (
-    <div className="w-full animate-fadeIn font-serif text-sm relative overflow-hidden">
+    <div className="w-full animate-fadeIn font-serif text-sm md:text-base relative overflow-hidden text-gray-800">
       
-      {/* 배경 그라데이션 (상단: 화이트/그레이 -> 하단: 딥 블랙) */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#f5f5f5] via-[#2a2a2a] to-black z-0 pointer-events-none"></div>
+      {/* 배경 그라데이션 (상단: 화이트 -> 하단: 딥 블랙) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#f8f8f8] via-[#525252] to-black z-0 pointer-events-none h-[200%]"></div>
 
-      {/* 노이즈 효과 (전체) */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 z-0 pointer-events-none mix-blend-overlay"></div>
+      {/* 노이즈 효과 */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 z-0 pointer-events-none mix-blend-multiply"></div>
 
-      <div className="relative z-10 max-w-2xl mx-auto pt-10 pb-20 px-6">
+      <div className="relative z-10 max-w-2xl mx-auto pt-12 pb-32 px-6">
         
-        {/* [Phase 1] 일상과 안도 (밝은 배경, 검은 글씨) */}
-        <div className="text-gray-800 space-y-8 mb-20">
-          <div className="border-b-2 border-gray-400 pb-2 flex justify-between items-end">
-            <h1 className="text-3xl font-bold tracking-widest text-black">
-              SECRET_DIARY.txt
+        {/* [Header] */}
+        <div className="border-b-2 border-gray-800 pb-4 mb-12 flex justify-between items-end">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-widest text-black mb-1">
+              DIARY_ENTRY_#LAST
             </h1>
-            <span className="font-mono text-xs text-gray-500">2025.12.22 (맑음)</span>
+            <p className="font-mono text-xs text-gray-500">작성자: 세라(Sera) / 상태: <span className="text-green-600 font-bold">생존(Alive)</span></p>
           </div>
+          <span className="font-mono text-xs text-gray-400">2025.12.22</span>
+        </div>
 
+        {/* [Section 1] 일상 (하얀 배경 구간) */}
+        <div className="space-y-8 mb-24">
           <p className="leading-loose">
-            오늘 아침, 눈을 떴을 때 창문으로 들어오는 햇살이 너무 눈부셨다. <br/>
-            살아있다는 건 정말 따뜻한 거구나.
+            오늘 아침, 알람 소리에 눈을 떴다. 창문 틈으로 들어오는 햇살이 유난히 눈부셔서 눈물이 핑 돌았다.
+            어제 그 끔찍했던 균열 속에서의 기억이 꿈처럼 느껴진다. 
+            정말... 살아돌아왔구나.
           </p>
           
           <p className="leading-loose">
-            어제 그 순간은 정말 끔찍했다. 시즈 님의 검이 내 목을 향해 날아올 때, 세상이 슬로우 모션처럼 보였다.
-            하지만 그때 <span className="font-bold text-pink-600 border-b border-pink-400">선배님</span>이 나를 밀치지 않으셨다면... 
-            상상만 해도 끔찍하다. 
+            시즈 님의 검이 내 목을 베기 직전, <HighlightText>선배님</HighlightText>이 내 손을 잡아당기지 않았다면 
+            나는 지금쯤 차가운 하수구 바닥에 쓰러져 있었을 것이다. 
+            그 순간의 서늘한 감각이 아직도 목덜미에 남아있는 것 같아 자꾸만 손으로 목을 만지게 된다.
+            물론, 만져지는 건 따뜻한 피부와 맥박뿐이다. 다행이다. 정말로.
           </p>
 
-          <div className="bg-white/50 p-4 border-l-4 border-pink-400 italic text-gray-600 shadow-sm">
-            "멍청하게 서 있지 말고 뛰어, 세라!" <br/>
-            ...그때 들었던 선배님의 목소리가 아직도 귓가에 맴돈다. 
-            덕분에 살았어요. 정말로요.
+          <div className="bg-white/60 p-6 border-l-4 border-pink-400 italic shadow-sm my-8">
+            "세라, 멍하니 있지 말고 짐 챙겨. 다음 임무 가야지." <br/>
+            <br/>
+            아까 아이리 님이 지나가며 하신 말씀이다. 평소처럼 차가운 말투였지만, 
+            오늘따라 그 잔소리조차 반갑게 들렸다. 
+            수리비 청구서는 5,200,000 크레딧이 찍혀있었다. 
+            평생 갚아야 할 빚이지만, 갚을 '미래'가 있다는 게 얼마나 감사한 일인지.
           </div>
 
           <p className="leading-loose">
-            물론, 대가는 혹독했다. 아이리 님께 불려 가서 3시간 동안 설교를 들었다.
-            무단 이탈, 명령 불복종, 그리고... 도망치면서 부순 가로등 수리비까지.
-            빚이 5,200,000 크레딧으로 늘어버렸다. 
-            <br/>
-            그래도 괜찮다. 갚으면 되니까. 열심히 일해서, 타락체도 잡고, 폐지도 줍고... 
-            어떻게든 될 거야. 나는 <span className="text-pink-600 font-bold">마법소녀</span>니까!
+            집에 오는 길에 선배님이 사주신 딸기맛 사탕을 입에 넣었다.
+            달콤해야 할 사탕에서 묘하게 <HighlightText strike={true}>비린내</HighlightText> 
+            아니, 쇠 맛이 났다. 아마 너무 긴장해서 미각이 잠시 둔해진 거겠지?
+            피곤해서 그런 걸 거야. 오늘은 일찍 자야겠다.
           </p>
         </div>
 
 
-        {/* [Phase 2] 위화감 (배경이 어두워지기 시작, 글씨가 회색으로 변함) */}
-        <div className="text-gray-300 space-y-10 mb-24 transition-colors duration-1000">
+        {/* [Section 2] 위화감 (회색 배경 구간) */}
+        <div className="space-y-10 mb-32 transition-colors duration-500 text-gray-200">
+          <div className="w-full h-px bg-gray-500/50 my-10"></div>
+          
           <p className="leading-loose">
-            ...그런데, 조금 이상한 점이 있다.
+            ...잠이 오지 않는다. 
+            거울을 봤는데, 목에 붉은 줄이 그어져 있다.
+            어제 도망치다가 나뭇가지에 긁힌 상처라고 생각했다. 
+            그런데 이상하다. <HighlightText>상처가 아물지 않는다.</HighlightText>
+            아니, 정확히 말하면 피가 흐르지도, 딱지가 지지도 않는다.
+            마치 빨간색 매직으로 그어놓은 것처럼, 선명한 붉은 선이 목을 한 바퀴 감고 있다.
           </p>
 
           <p className="leading-loose">
-            아까 편의점에서 선배님이 사주신 딸기맛 사탕을 먹었는데, 맛이 나지 않았다.
-            아니, 정확히 말하면 <GlitchSpan>녹슨 쇠 맛</GlitchSpan>이 났다.
-            분명 유통기한도 넉넉했는데. 내 미각이 이상해진 걸까? 
-            너무 놀라서 뱉어버렸는데, 바닥에 떨어진 사탕이 붉은색이 아니라 검은색처럼 보였다.
-          </p>
-
-          <p className="leading-loose">
-            그리고 시즈 님. <br/>
-            오늘 복도에서 마주쳤는데, 나를 보고 아무 말도 하지 않으셨다.
-            그냥... 투명 인간을 보는 것처럼, 아니면 <GlitchSpan>죽은 사람</GlitchSpan>을 보는 것처럼 
-            내 어깨 너머의 허공만 응시하다 지나가셨다.
+            조금 전, 편의점에 다시 다녀왔다.
+            알바생에게 인사를 했는데 나를 쳐다보지 않았다.
+            계산대에 돈을 올려놓았는데, 그 사람은 내 손을 통과해 허공을 휘저으며 
+            "어라, 문이 열렸나?" 하고 중얼거렸다.
             
             <br/><br/>
-            "살아남았군." 이라던가, "운이 좋네." 같은 말이라도 하실 줄 알았는데.
+            나는 투명 인간이 된 걸까? 
+            아니면, 세상이 나를 <HighlightText strike={true}>인식하지 못하는</HighlightText> 걸까?
           </p>
 
-          <p className="leading-loose pl-4 border-l border-red-900/50 text-gray-400 text-sm">
-            거울을 봤다. 목에 붉은 선이 그어져 있다. 
-            아마 어제 너무 급하게 도망치다가 나뭇가지에 긁힌 거겠지?
-            근데 왜 이렇게 <GlitchSpan>차갑지?</GlitchSpan>
-            따갑지도 않고, 그냥 얼음을 대고 있는 것처럼 시리다.
+          <p className="leading-loose pl-4 border-l-2 border-red-900/50 text-gray-300">
+            선배님. 저기요, 선배님.
+            아까부터 제 옆에 계신 거 맞죠?
+            저한테 "다행이다"라고 말해주셨잖아요.
+            근데 왜 선배님 목소리가 자꾸 지직거리는 라디오 소리처럼 들리죠?
+            <br/>
+            제 이름이 세라가 맞나요? 
+            통장을 확인해봤는데 예금주 명에 <HighlightText>UNKNOWN_ENTITY</HighlightText>라고 적혀있어요.
+            이거 은행 전산 오류겠죠? 그렇죠?
           </p>
         </div>
 
 
-        {/* [Phase 3] 붕괴 (배경 블랙, 붉은색과 흰색 글리치 난무) */}
+        {/* [Section 3] 붕괴 및 진실 (검은 배경 구간) */}
         <div className="text-red-100 space-y-12">
           
-          <div className="space-y-4">
-            <p className="text-lg font-bold text-red-500 animate-pulse">
-              이상해. 이상해. 이상해.
+          <div className="space-y-6">
+            <p className="text-xl font-bold text-red-500 animate-pulse">
+              오류. 오류. 데이터 불일치.
             </p>
             
-            <p className="leading-loose opacity-80">
-              선배님은 나를 보고 웃어주시는데, 선배님 그림자가 없다.
-              아니, 내 그림자가 없는 건가?
-              방금 통장을 확인했는데, 잔고가 0원이 아니라 <GlitchSpan>NULL</GlitchSpan>로 뜬다.
-              이런 숫자는 본 적이 없는데.
+            <p className="leading-loose opacity-90 font-mono text-sm">
+              기억 데이터 복구 시도... [실패]<br/>
+              타임라인 동기화... [치명적 오류]<br/>
+              <br/>
+              기억났어.
+              선배님은 내 손을 잡은 적이 없어.
+              선배님은... <HighlightText>내 죽음을 목격한 방관자</HighlightText>였잖아.
             </p>
-          </div>
 
-          <div className="border border-red-900/50 p-6 bg-[#1a0000] shadow-[0_0_20px_rgba(255,0,0,0.1)] relative overflow-hidden">
-            <p className="relative z-10 leading-loose text-justify font-mono text-xs md:text-sm">
-              기억이 섞인다. 
-              분명 나는 선배님 손을 잡고 뛰었는데.
-              동시에, <GlitchSpan>차가운 바닥</GlitchSpan>에 쓰러져 있던 기억도 난다.
-              내 하반신이 저기 멀리에 있고, 시즈 님이 내 머리 위에서 무미건조한 눈으로 
-              "폐기 완료"라고 말하는 장면이 자꾸 머릿속에서 재생된다.
+            <p className="leading-loose">
+              시즈 님의 검은 빗나가지 않았어.
+              정확하게, 아주 깔끔하게 내 목을 베고 지나갔어.
+              나는 도망친 게 아니야.
+              내 몸은 하수구 바닥에 쓰러졌고, 내 머리만 바닥을 굴렀어.
               
               <br/><br/>
-              이건 꿈이지? 그렇지? 
-              나는 지금 선배님이랑 대화하고 있잖아.
-              근데 왜 선배님 목소리가 점점 <GlitchSpan>노이즈</GlitchSpan>처럼 들릴까.
+              지금 이 일기를 쓰고 있는 손은 누구 손이지?
+              거울 속에 비친 내 얼굴은 왜 웃고 있지?
+              목이 붙어있지 않은데 어떻게 웃을 수 있는 거야?
             </p>
           </div>
 
-          <div className="space-y-2 text-center pt-8">
-            <p className="text-3xl font-black text-gray-800 bg-white inline-block px-2 transform -rotate-2">
-              살려주세요
-            </p>
-            <br/>
-            <p className="text-xl font-black text-red-900 bg-black border border-red-600 inline-block px-2 transform rotate-3 mt-2">
-              죽기 싫어
-            </p>
-            <br/>
-            <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 mt-4 filter blur-[1px]">
-              아파아파아파아파아파아파
-            </p>
+          <div className="border border-red-800 bg-[#1a0505] p-6 shadow-[0_0_30px_rgba(220,38,38,0.2)] relative">
+             <p className="leading-loose text-justify text-red-200/80">
+               아아, 그래. 이제 알겠어.
+               이건 내 일기가 아니야.
+               이건 죽어가는 뇌가 마지막으로 보여주는 <HighlightText strike={true}>달콤한 환각</HighlightText>이야.
+               사탕 맛이 쇠 맛이었던 건, 내 입안 가득 고여있던 피 때문이었어.
+               
+               <br/><br/>
+               선배님, 제 목소리 들리세요?
+               아니, 들릴 리가 없지. 
+               선배님은 지금 제 시체를 내려다보고 계시니까요.
+             </p>
           </div>
 
-          <p className="text-xs text-gray-500 font-mono text-center">
-            System Warning: Entity 'Sera' synchronization rate dropping below 15%.
-            <br/>
-            Fatal Error: Coexistence of conflicting timelines detected.
-          </p>
-
-          <div className="pt-10 border-t border-red-900/30">
-            <p className="leading-loose text-red-300">
-              선배님... 저, 목이 안 붙어요.
-              아무리 손으로 눌러도 피가 멈추질 않아요.
-              이거 딸기 시럽 아니죠? 
+          {/* [이미지 출력 부분] 살려주세요 대신 이미지가 출력됨 */}
+          <div className="py-10 flex flex-col items-center justify-center gap-4">
+            <p className="text-xs text-red-500 font-mono mb-2">
+              &gt; SYSTEM: VISUAL_FEED_RECONSTRUCTED (Source: User_Retina)
+            </p>
+            
+            <div className="relative w-full max-w-md aspect-video border-2 border-red-900/50 bg-black shadow-[0_0_50px_rgba(255,0,0,0.3)] overflow-hidden group">
+              {/* 이미지에 글리치 효과 및 붉은 오버레이 추가 */}
+              <div className="absolute inset-0 bg-red-900/20 z-10 mix-blend-overlay pointer-events-none"></div>
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 z-20 pointer-events-none"></div>
               
-              <br/><br/>
-              저 <GlitchSpan>죽은 거</GlitchSpan> 맞죠?
-              근데 왜 자꾸 살아있다고 거짓말해요?
-              희망고문하지 마. 차라리 그냥 끝내줘.
-              제발, 제발, 제발...
+              {/* [IMAGE] 여기에 실제 이미지가 들어감 */}
+              <Image 
+                src="/archive/sera_truth.png" 
+                alt="The Truth of Sera" 
+                fill
+                className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-1000 ease-out grayscale hover:grayscale-0"
+              />
+              
+              {/* 이미지 위 텍스트 (선택사항) */}
+              <div className="absolute bottom-2 right-2 z-30 bg-black text-red-600 text-xs px-2 py-1 font-mono">
+                STATUS: DECEASED
+              </div>
+            </div>
+
+            <p className="text-xs text-gray-600 font-mono mt-4 text-center">
+              [The simulation has ended.]
             </p>
           </div>
 
         </div>
 
         {/* [Ending] 시스템 강제 종료 */}
-        <div className="mt-20 pt-10 border-t-2 border-red-600 text-center pb-20">
-           <div className="text-red-600 font-mono text-sm md:text-lg font-bold glitch-text">
-             <Typewriter text="> CONNECTION TERMINATED BY ADMIN." delay={500} speed={50} />
+        <div className="mt-20 pt-10 border-t border-red-900/30 text-center pb-10">
+           <div className="text-red-700 font-mono text-sm font-bold">
+             <Typewriter text="> DELETING CORRUPTED FILE..." delay={1000} speed={50} />
            </div>
-           <div className="mt-4 text-[10px] text-gray-600 font-mono">
-             [Record deleted from timeline #8821]
+           <div className="mt-2 text-red-900/50 font-mono text-[10px]">
+             Error Code: 0xDEAD_END
            </div>
         </div>
 
